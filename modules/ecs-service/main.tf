@@ -102,12 +102,18 @@ resource "aws_ecs_task_definition" "this" {
   execution_role_arn       = aws_iam_role.execution.arn
   task_role_arn            = aws_iam_role.task.arn
 
+  # The root file system is read-only; the JVM and the web server need one writable place for temporary files.
+  volume {
+    name = "tmp"
+  }
+
   container_definitions = jsonencode([{
     name                   = "app"
     image                  = var.image
     essential              = true
     user                   = var.user
     readonlyRootFilesystem = true
+    mountPoints            = [{ sourceVolume = "tmp", containerPath = "/tmp", readOnly = false }]
     portMappings           = [{ containerPort = var.container_port, protocol = "tcp" }]
     environment            = [for k, v in var.environment : { name = k, value = v }]
     secrets                = [for k, v in var.secrets : { name = k, valueFrom = v }]

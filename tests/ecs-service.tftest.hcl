@@ -70,7 +70,7 @@ run "fargate_service" {
   }
 
   assert {
-    condition     = jsondecode(output.container_definition)[0].readonlyRootFilesystem == true && jsondecode(output.container_definition)[0].user == "10001"
+    condition     = jsondecode(output.container_definition)[0].readonlyRootFilesystem == true && jsondecode(output.container_definition)[0].user == "10001" && jsondecode(output.container_definition)[0].mountPoints[0].containerPath == "/tmp"
     error_message = "The container needs a read-only root filesystem and a non-root user."
   }
 
