@@ -81,7 +81,7 @@ variable "secret_recovery_window_in_days" {
 
 variable "allow_immediate_delete" {
   type        = bool
-  description = "Allow a recovery window of 0 days. For the local environment only."
+  description = "Allow a recovery window of 0 days, and let destroy remove a repository that holds images and a bucket that holds objects. For the local environment only."
   default     = false
 }
 

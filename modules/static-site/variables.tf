@@ -37,3 +37,9 @@ variable "tags" {
   description = "Tags added to every resource."
   default     = {}
 }
+
+variable "force_destroy" {
+  type        = bool
+  description = "Delete the bucket even when it holds objects. For the local environment only."
+  default     = false
+}

@@ -3,6 +3,12 @@ variable "name" {
   description = "Name of the repository, for example shop-bff."
 }
 
+variable "force_delete" {
+  type        = bool
+  description = "Delete the repository even when it holds images. For the local environment only."
+  default     = false
+}
+
 variable "keep_images" {
   type        = number
   description = "How many images the lifecycle policy keeps."

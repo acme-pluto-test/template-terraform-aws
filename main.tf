@@ -13,7 +13,8 @@ module "network" {
 module "ecr" {
   source = "./modules/ecr"
 
-  name = "${local.name_prefix}-bff"
+  name         = "${local.name_prefix}-bff"
+  force_delete = var.allow_immediate_delete
 }
 
 module "secrets" {
@@ -59,6 +60,7 @@ module "web" {
   source = "./modules/static-site"
 
   bucket_name         = "${local.name_prefix}-web"
+  force_destroy       = var.allow_immediate_delete
   web_acl_arn         = module.waf.arn
   acm_certificate_arn = var.acm_certificate_arn
   aliases             = var.web_aliases
