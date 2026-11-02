@@ -1,0 +1,17 @@
+# Floci stands in for AWS in local development and CI (AD-003). Pinned by version (FR-INF-07).
+services:
+  floci:
+    image: floci/floci:2.3.0
+    user: root # ECS, ECR and RDS run real containers through the Docker socket
+    environment:
+      FLOCI_HOSTNAME: floci
+    ports:
+      - "127.0.0.1:4566:4566" # loopback only: Floci takes no credentials and starts containers through the Docker socket
+      - "127.0.0.1:${FLOCI_ALB_PORT:-80}:80" # the listener of the BFF load balancer, which the reference scenario reaches by its Host header
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/4566"]
+      interval: 2s
+      timeout: 3s
+      retries: 30

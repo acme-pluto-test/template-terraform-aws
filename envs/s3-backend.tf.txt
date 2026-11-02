@@ -1,0 +1,4 @@
+# Copy to backend.tf before terraform init in dev, hml and prd. The local environment keeps local state.
+terraform {
+  backend "s3" {}
+}
